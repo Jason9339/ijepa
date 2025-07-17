@@ -1,0 +1,52 @@
+data:
+  batch_size: 4  # 減少batch size以減少記憶體使用
+  color_jitter_strength: 0.0
+  crop_scale:
+  - 0.3
+  - 1.0
+  crop_size: 224
+  image_folder: imagenet_full_size/061417/
+  num_workers: 4  # 適應cluster環境
+  pin_mem: true
+  root_path: /ceph/sharedfs/users/z/zihcilin39/ijepa_test_data  # 使用正確的並行檔案系統路徑
+  use_color_distortion: false
+  use_gaussian_blur: false
+  use_horizontal_flip: false
+logging:
+  folder: $SLURM_SUBMIT_DIR/test_logs/  # 使用提交目錄下的日誌資料夾
+  write_tag: test_jepa
+mask:
+  allow_overlap: false
+  aspect_ratio:
+  - 0.75
+  - 1.5
+  enc_mask_scale:
+  - 0.85
+  - 1.0
+  min_keep: 10
+  num_enc_masks: 1
+  num_pred_masks: 4
+  patch_size: 14
+  pred_mask_scale:
+  - 0.15
+  - 0.2
+meta:
+  copy_data: false
+  load_checkpoint: false
+  model_name: vit_tiny  # 使用最小的模型以減少計算量
+  pred_depth: 6  # 減少predictor深度
+  pred_emb_dim: 192  # 減少embedding維度
+  read_checkpoint: null
+  use_bfloat16: false  # 關閉混合精度以提高相容性
+optimization:
+  ema:
+  - 0.996
+  - 1.0
+  epochs: 1  # 只運行1個epoch進行測試
+  final_lr: 1.0e-06
+  final_weight_decay: 0.4
+  ipe_scale: 1.0
+  lr: 0.001
+  start_lr: 0.0002
+  warmup: 1  # 減少warmup步驟
+  weight_decay: 0.04 
